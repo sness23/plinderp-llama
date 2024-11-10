@@ -1,0 +1,247 @@
+import pygame
+import os
+
+# Function to load images from a text file
+def load_image_list(filename):
+    image_list = []
+    with open(filename, 'r') as file:
+        for line in file:
+            if line.startswith("file"):
+                # Extract the filename from the line
+                image_name = line.split("'")[1]
+                image_list.append(image_name)
+    return image_list
+
+# Function to display an image with the correct aspect ratio and black bars
+def display_image(screen, image):
+    screen_width, screen_height = screen.get_size()
+    image_width, image_height = image.get_size()
+    
+    # Calculate the aspect ratios
+    image_aspect = image_width / image_height
+    screen_aspect = screen_width / screen_height
+
+    if image_aspect > screen_aspect:
+        # Image is wider than screen; fit to width
+        new_width = screen_width
+        new_height = int(screen_width / image_aspect)
+    else:
+        # Image is taller than screen; fit to height
+        new_height = screen_height
+        new_width = int(screen_height * image_aspect)
+
+    # Scale the image
+    scaled_image = pygame.transform.scale(image, (new_width, new_height))
+
+    # Calculate position to center the image
+    x = (screen_width - new_width) // 2
+    y = (screen_height - new_height) // 2
+
+    # Create a black background
+    screen.fill((0, 0, 0))
+    # Blit the scaled image onto the centered position
+    screen.blit(scaled_image, (x, y))
+    pygame.display.flip()
+
+# Initialize Pygame
+pygame.init()
+
+# Set up the display
+screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+pygame.display.set_caption("Image Slideshow")
+
+# Load the list of images
+images = load_image_list('image_list.txt')
+
+# Main loop variables
+current_image_index = 0
+running = True
+
+# Main loop
+while running:
+    # Load the current image
+    image_path = images[current_image_index]
+
+    # Check if the image exists
+    if not os.path.isfile(image_path):
+        print(f"Image not found: {image_path}")
+        # Move to the next image if the current one doesn't exist
+        current_image_index = (current_image_index + 1) % len(images)
+        continue
+
+    # Load the image
+    image = pygame.image.load(image_path)
+
+    # Display the image with the correct aspect ratio
+    display_image(screen, image)
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        if event.type == pygame.KEYDOWN:
+            if event.key in [pygame.K_SPACE, pygame.K_DOWN, pygame.K_RETURN]:
+                # Move to the next image
+                current_image_index = (current_image_index + 1) % len(images)
+            elif event.key == pygame.K_UP:
+                # Move to the previous image
+                current_image_index = (current_image_index - 1) % len(images)
+            elif event.key == pygame.K_ESCAPE or event.key == pygame.K_q:
+                # Exit the application
+                running = False
+            elif event.key == pygame.K_HOME:
+                # Go to the first image
+                current_image_index = 0
+            elif event.key == pygame.K_END:
+                # Go to the last image
+                current_image_index = len(images) - 1
+
+# Clean up
+pygame.quit()
+
+------------------------------
+
+
+# Slide 1: PLINDERP Integration
+"Welcome to our presentation on the PLINDERP integration. Today, I will discuss how we enhance the Plinder dataset with Llama 3.2, allowing for seamless access to citations and abstracts through our integration with `plinder.doi.bio`."
+
+
+
+# Slide 2: About `plinderdoibio`
+"We've developed a Python package called `plinderdoibio` specifically for this integration. This package provides a user-friendly HTTP interface, enabling researchers to easily access citation data and relevant links for protein-ligand interaction entries."
+
+
+
+# Slide 3: Inputs for Integration
+"The primary input for our integration is the Protein Data Bank code. For example, using the PDB code '1erm', users can query the system to retrieve pertinent information related to that specific protein-ligand interaction."
+
+
+
+# Slide 4: Outputs Available
+"Our integration produces several outputs based on user preferences. Users can receive a text version of the citation, download PDFs and markdown versions of the relevant papers, and access important links to PubMed ID and PubMed Central entries for further exploration."
+
+
+
+# Slide 5: Leveraging the Integration  
+"Once users download the PDFs, they can utilize Llama 3.2 to analyze the images contained within these documents. This analysis aims to provide valuable insights, particularly related to docking studies and the intricacies of protein-ligand interactions."
+
+
+
+# Slide 6: Future Directions
+"Looking ahead, we plan to incorporate user feedback to continually improve the `plinderdoibio` package. Additionally, we aim to integrate more data sources and expand our analytical capabilities to further enhance the user experience and research outcomes."
+
+------------------------------
+
+# Slide 1: PLINDERP Integration
+"Welcome, everyone! Today, I’m thrilled to discuss the integration of PLINDERP with Llama 3.2, a project that is particularly relevant for the upcoming Machine Learning in Structural Biology workshop at the 38th Conference on Neural Information Processing Systems. On December 15, 2024, we’ll be diving deep into how machine learning algorithms are transforming structural biology."
+
+
+
+# Slide 2: About `plinderdoibio`
+"As part of our project, we've developed a Python package named `plinderdoibio`. This package serves as an intuitive interface that simplifies access to citation data via the `plinder.doi.bio` API. By making HTTP requests, our package helps researchers seamlessly retrieve information, which is crucial for hypothesis generation and experimental design."
+
+
+
+# Slide 3: Inputs for Integration
+"The primary input for our integration is the Protein Data Bank (PDB) code. For instance, entering a code like '1erm' allows us to pull comprehensive information tied to that specific protein-ligand interaction. Ensuring the accuracy of these inputs helps maintain the relevance and quality of the outputs."
+
+
+
+# Slide 4: Outputs Available
+"Our integration yields a variety of valuable outputs. Users receive a formatted text version of citations, downloadable PDFs of research papers, markdown formats for documentation, and direct links to both PubMed ID and PubMed Central. These outputs equip researchers with easy access to pertinent literature—an essential resource in structural biology."
+
+
+
+# Slide 5: Leveraging the Integration  
+"Leveraging these outputs, users can analyze downloaded PDFs using Llama 3.2, extracting insights about protein-ligand interactions. This capability is vital for advancing our understanding of protein dynamics and enhancing bioengineering processes—a core focus of our workshop discussions."
+
+
+
+# Slide 6: Future Directions
+"Looking forward, we plan to gather user feedback to refine the `plinderdoibio` package continually. We also aim to expand the integration to include more data sources, ultimately enhancing its utility for researchers. This effort aligns with our goal of contributing to the field of structural biology, especially as we explore new machine learning methodologies."
+
+
+
+# Slide 7: MLSB Workshop Focus
+"The MLSB workshop seeks to address several active challenges in structural biology, including modeling protein dynamics and predicting the structure of biomolecules like RNA. By developing tools like PLINDERP, we are contributing to this evolving field and aiming to pave the way for future discoveries."
+
+
+
+# Slide 8: Upcoming Paper Submission
+"In line with the MLSB workshop, I'm excited to share that one of the outputs from this hackathon will be a paper about PLINDERP. This paper will highlight how our integration can provide valuable resources for researchers and facilitate breakthroughs in protein-ligand interaction studies."
+
+
+
+# Slide 9: Hackathon Directions
+"Before we wrap up, I want to stress some important guidelines from the lablab.ai hackathon. When submitting your projects, please ensure you select a descriptive title and provide concise summaries that capture the essence of your project. Don’t forget the importance of visuals in your submissions!"
+
+
+
+# Slide 10: Demo Time!
+"And finally, let’s jump into a quick demo! I’ll showcase how to utilize the `plinderdoibio` package to fetch citation information from the Plinder dataset. Please join me as I walk you through its functionalities and demonstrate how it can support your research endeavors in structural biology."
+import pygame
+import os
+
+# Function to load images from a text file
+def load_image_list(filename):
+    image_list = []
+    with open(filename, 'r') as file:
+        for line in file:
+            if line.startswith("file"):
+                # Extract the filename from the line
+                image_name = line.split("'")[1]
+                image_list.append(image_name)
+    return image_list
+
+# Initialize Pygame
+pygame.init()
+
+# Set up the display
+screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+pygame.display.set_caption("Image Slideshow")
+
+# Load the list of images
+images = load_image_list('image_list.txt')
+
+# Main loop variables
+current_image_index = 0
+running = True
+
+while running:
+    image_path = images[current_image_index]
+    
+    if not os.path.isfile(image_path):
+        print(f"Image not found: {image_path}")
+        current_image_index = (current_image_index + 1) % len(images)
+        continue
+
+    # Load and transform the image for fullscreen
+    image = pygame.image.load(image_path)
+    image = pygame.transform.scale(image, screen.get_size())
+
+    # Blit the image to the screen
+    screen.blit(image, (0, 0))
+    pygame.display.flip()
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        if event.type == pygame.KEYDOWN:
+            if event.key in [pygame.K_SPACE, pygame.K_DOWN, pygame.K_RETURN]:
+                # Move to the next image
+                current_image_index = (current_image_index + 1) % len(images)
+            elif event.key == pygame.K_UP:
+                # Move to the previous image
+                current_image_index = (current_image_index - 1) % len(images)
+            elif event.key == pygame.K_ESCAPE or event.key == pygame.K_q:
+                # Exit the application
+                running = False
+            elif event.key == pygame.K_HOME:
+                # Go to the first image
+                current_image_index = 0
+            elif event.key == pygame.K_END:
+                # Go to the last image
+                current_image_index = len(images) - 1
+                
+
+pygame.quit()
+
