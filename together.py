@@ -1,7 +1,7 @@
 from together import Together
 from plinderpdoibio import get_markdown
 
-plinderp_file = get_markdown('plinder', '1erm')
+plinderp_file = get_markdown('plinder', '1erm.pdf.7.json')
 
 client = Together()
 
@@ -22,7 +22,7 @@ response = client.chat.completions.create(
     top_k=50,
     repetition_penalty=1,
     stop=["<|eot_id|>","<|eom_id|>"],
-    image_base64=[plinderp_file],
+    image_base64=["data:image/png;base64," + plinderp_file],
     stream=True
 )
 for token in response:
